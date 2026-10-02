@@ -21,7 +21,12 @@ def JavaCheck():
 def playmusic():
     """Initializes and starts the music."""
     global music_paused
-    pygame.mixer.init()
+    try:
+        pygame.mixer.init()
+    except pygame.error as e:
+        print(f"Audio unavailable; continuing without music: {e}")
+        music_paused = True
+        return
     try:
         # Using resource_path to ensure it works in EXE
         music_file = resource_path(os.path.join("features", "music", "elevator-music.mp3"))
